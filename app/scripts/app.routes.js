@@ -2,7 +2,6 @@
   'use strict';
 
   angular.module('Ongkirku')
-
     .config(routeConfig);
 
   routeConfig.$inject = ['$httpProvider', '$stateProvider', '$urlRouterProvider'];
@@ -16,7 +15,7 @@
         .state('app', {
           url: '/app',
           abstract: true,
-          templateUrl: 'templates/main.html',
+          templateUrl: 'layout/main.html',
           controller: 'MainController'
         })
         .state('app.home', {
@@ -24,7 +23,7 @@
           cache: true,
           views: {
             'viewContent': {
-              templateUrl: 'templates/views/home.html',
+              templateUrl: 'home/home.html',
               controller: 'HomeController'
             }
           }
@@ -34,7 +33,7 @@
           cache: true,
           views: {
             'viewContent': {
-              templateUrl: 'templates/views/settings.html',
+              templateUrl: 'settings/settings.html',
               controller: 'SettingsController'
             }
           }

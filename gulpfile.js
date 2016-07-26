@@ -112,15 +112,14 @@ gulp.task('scripts', function() {
   // prepare angular template cache from html templates
   // (remember to change appName var to desired module name)
   var templateStream = gulp
-    .src('**/*.html', { cwd: 'app/templates'})
+    .src('**/*.html', { cwd: 'app/scripts/' })
     .pipe(plugins.angularTemplatecache('templates.js', {
-      root: 'templates/',
       module: appName,
       htmlmin: build && minifyConfig
     }));
 
   var scriptStream = gulp
-    .src(['templates.js', 'app.js', '**/*.js'], { cwd: 'app/scripts' })
+    .src(['templates.js', 'app.js', '**/*.js', '!**/*[sS]pec.js'], { cwd: 'app/scripts' })
 
     .pipe(plugins.if(!build, plugins.changed(dest)));
 
@@ -298,7 +297,7 @@ gulp.task('watchers', function() {
   gulp.watch('app/images/**', ['images']);
   gulp.watch('app/scripts/**/*.js', ['index']);
   gulp.watch('./bower.json', ['vendor']);
-  gulp.watch('app/templates/**/*.html', ['index']);
+  gulp.watch('app/scripts/**/*.html', ['index']);
   gulp.watch('app/index.html', ['index']);
   gulp.watch(targetDir + '/**')
     .on('change', plugins.livereload.changed)
@@ -338,7 +337,7 @@ gulp.task('default', function(done) {
     build ? 'noop' : 'watchers',
     [
       build ? 'noop' : 'serve',
-      build ? 'noop' : 'tdd'
+      build ? 'test' : 'tdd'
     ],
     emulate ? ['ionic:emulate', 'watchers'] : 'noop',
     run ? 'ionic:run' : 'noop',
