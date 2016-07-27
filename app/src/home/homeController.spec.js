@@ -30,6 +30,7 @@ describe('Home Controller', function() {
 
   it('should say hello', function() {
     expect($scope.sayHello()).toEqual('hello');
+    expect('test').toEqual('test');
   });
 
 });

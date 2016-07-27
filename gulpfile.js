@@ -100,7 +100,7 @@ gulp.task('styles', function() {
 // build templatecache, copy scripts.
 // if build: concat, minsafe, uglify and versionize
 gulp.task('scripts', function() {
-  var dest = path.join(targetDir, 'scripts');
+  var dest = path.join(targetDir, 'src');
 
   var minifyConfig = {
     collapseWhitespace: true,
@@ -112,14 +112,14 @@ gulp.task('scripts', function() {
   // prepare angular template cache from html templates
   // (remember to change appName var to desired module name)
   var templateStream = gulp
-    .src('**/*.html', { cwd: 'app/scripts/' })
+    .src('**/*.html', { cwd: 'app/src/' })
     .pipe(plugins.angularTemplatecache('templates.js', {
       module: appName,
       htmlmin: build && minifyConfig
     }));
 
   var scriptStream = gulp
-    .src(['templates.js', 'app.js', '**/*.js', '!**/*[sS]pec.js'], { cwd: 'app/scripts' })
+    .src(['templates.js', 'app.js', '**/*.js', '!**/*[sS]pec.js'], { cwd: 'app/src' })
 
     .pipe(plugins.if(!build, plugins.changed(dest)));
 
@@ -176,7 +176,7 @@ gulp.task('images', function() {
 // lint js sources based on .jshintrc ruleset
 gulp.task('jsHint', function(done) {
   return gulp
-    .src('app/scripts/**/*.js')
+    .src('app/src/**/*.js')
     .pipe(plugins.jshint())
     .pipe(plugins.jshint.reporter(stylish))
 
@@ -218,7 +218,7 @@ gulp.task('index', ['jsHint', 'scripts'], function() {
   // in development mode, it's better to add each file seperately.
   // it makes debugging easier.
   var _getAllScriptSources = function() {
-    var scriptStream = gulp.src(['scripts/app.js', 'scripts/**/*.js', '!scripts/**/*[sS]pec.js'], { cwd: targetDir });
+    var scriptStream = gulp.src(['src/app.js', 'src/**/*.js', '!src/**/*[sS]pec.js'], { cwd: targetDir });
     return streamqueue({ objectMode: true }, scriptStream);
   };
 
@@ -229,7 +229,7 @@ gulp.task('index', ['jsHint', 'scripts'], function() {
     .pipe(_inject(gulp.src('vendor*.js', { cwd: targetDir }), 'vendor'))
     // inject app.js (build) or all js files indivually (dev)
     .pipe(plugins.if(build,
-      _inject(gulp.src('scripts/app*.js', { cwd: targetDir }), 'app'),
+      _inject(gulp.src('src/app*.js', { cwd: targetDir }), 'app'),
       _inject(_getAllScriptSources(), 'app')
     ))
 
@@ -295,9 +295,9 @@ gulp.task('watchers', function() {
   gulp.watch('app/fonts/**', ['fonts']);
   gulp.watch('app/icons/**', ['iconfont']);
   gulp.watch('app/images/**', ['images']);
-  gulp.watch('app/scripts/**/*.js', ['index']);
+  gulp.watch('app/src/**/*.js', ['index']);
   gulp.watch('./bower.json', ['vendor']);
-  gulp.watch('app/scripts/**/*.html', ['index']);
+  gulp.watch('app/src/**/*.html', ['index']);
   gulp.watch('app/index.html', ['index']);
   gulp.watch(targetDir + '/**')
     .on('change', plugins.livereload.changed)

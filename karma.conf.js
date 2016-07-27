@@ -21,11 +21,11 @@ module.exports = function(config) {
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/ngCordova/dist/ng-cordova.js',
       'bower_components/ngCordova/dist/ng-cordova-mocks.js',
-      'app/scripts/app.js',
-      'app/scripts/*module.js',
-      'app/scripts/**/*.js',
+      'app/src/app.js',
+      'app/src/*module.js',
+      'app/src/**/*.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'spec/**/*[sS]pec.js'
+      'app/specs/**/*[sS]pec.js'
     ],
 
 
