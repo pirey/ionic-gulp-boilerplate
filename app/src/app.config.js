@@ -1,19 +1,23 @@
+/*
+ * This is the main app's config
+ *
+ */
 (function() {
   'use strict';
 
   angular.module('Ongkirku')
-    .run(appRun);
+    .constant('appConfig', {
 
-  appRun.$inject = ['$ionicPlatform'];
+      apiEndpoint: {
+        host: 'http://localhost',
+        port: 3000,
+        path: '',
+        needsAuth: false
+      }
 
-  function appRun($ionicPlatform) {
+      // add more config items here
+      // ...
 
-    $ionicPlatform.ready(function() {
-      // save to use plugins here
     });
-
-    // add possible global event handlers here
-
-  }
-
 })();
+

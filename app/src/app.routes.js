@@ -1,3 +1,5 @@
+/* This file contains all the app routes */
+
 (function() {
   'use strict';
 
