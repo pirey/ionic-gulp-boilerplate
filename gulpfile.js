@@ -70,7 +70,7 @@ gulp.task('styles', function() {
   var options = build ? { style: 'compressed' } : { style: 'expanded' };
 
   var sassStream = gulp.src('app/styles/main.scss')
-    .pipe(plugins.sass(options))
+    .pipe(plugins.sass(options).on('error', plugins.sass.logError))
     .on('error', function(err) {
       console.log('err: ', err);
       beep();
@@ -79,7 +79,7 @@ gulp.task('styles', function() {
   // build ionic css dynamically to support custom themes
   var ionicStream = gulp.src('app/styles/ionic-styles.scss')
     .pipe(plugins.cached('ionic-styles'))
-    .pipe(plugins.sass(options))
+    .pipe(plugins.sass(options).on('error', plugins.sass.logError))
     // cache and remember ionic .scss in order to cut down re-compile time
     .pipe(plugins.remember('ionic-styles'))
     .on('error', function(err) {
