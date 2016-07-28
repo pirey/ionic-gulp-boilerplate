@@ -8,12 +8,12 @@ var del = require('del');
 var beep = require('beepbeep');
 var express = require('express');
 var path = require('path');
-var open = require('open');
+var open = require('open'); // jshint ignore:line
 var stylish = require('jshint-stylish');
 var connectLr = require('connect-livereload');
 var streamqueue = require('streamqueue');
 var runSequence = require('run-sequence');
-var merge = require('merge-stream');
+//var merge = require('merge-stream');
 var ripple = require('ripple-emulator');
 var wiredep = require('wiredep');
 var Server = require('karma').Server;
@@ -174,14 +174,13 @@ gulp.task('images', function() {
 
 
 // lint js sources based on .jshintrc ruleset
-gulp.task('jsHint', function(done) {
+gulp.task('jsHint', function() {
   return gulp
     .src('app/src/**/*.js')
     .pipe(plugins.jshint())
     .pipe(plugins.jshint.reporter(stylish))
 
     .on('error', errorHandler);
-    done();
 });
 
 // concatenate and minify vendor sources
@@ -297,8 +296,8 @@ gulp.task('watchers', function() {
   gulp.watch('app/images/**', ['images']);
   gulp.watch('app/src/**/*.js', ['index']);
   gulp.watch('./bower.json', ['vendor']);
-  gulp.watch('app/src/**/*.html', ['index']);
-  gulp.watch('app/index.html', ['index']);
+  gulp.watch(['app/index.html', 'app/src/**/*.html'], ['index']);
+  gulp.watch('app/src/**/*[sS]pec.js', ['test']);
   gulp.watch(targetDir + '/**')
     .on('change', plugins.livereload.changed)
     .on('error', errorHandler);
@@ -333,12 +332,10 @@ gulp.task('default', function(done) {
       'images',
       'vendor'
     ],
+    'test',
     'index',
     build ? 'noop' : 'watchers',
-    [
-      build ? 'noop' : 'serve',
-      build ? 'test' : 'tdd'
-    ],
+    build ? 'noop' : 'serve',
     emulate ? ['ionic:emulate', 'watchers'] : 'noop',
     run ? 'ionic:run' : 'noop',
     done);
