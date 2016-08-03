@@ -39,6 +39,7 @@
     "karma-chrome-launcher": "^1.0.1",
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.1",
+    "karma-spec-reporter": "0.0.26",
     "lodash": "^3.10.1",
     "lodash._basecopy": "latest",
     "merge-stream": "^1.0.0",

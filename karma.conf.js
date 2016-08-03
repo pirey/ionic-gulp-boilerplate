@@ -4,6 +4,10 @@
 'use strict';
 
 module.exports = function(config) {
+  // retrieve main files from bower
+  var wiredep = require('wiredep');
+  var bowerFiles = wiredep({devDependencies: true}).js;
+
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -14,20 +18,14 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
 
-
     // list of files / patterns to load in the browser
-    files: [
-      'bower_components/ionic/release/js/ionic.bundle.js',
-      'bower_components/angular-resource/angular-resource.js',
-      'bower_components/ngCordova/dist/ng-cordova.js',
-      'bower_components/ngCordova/dist/ng-cordova-mocks.js',
+    files: bowerFiles.concat([
+      // other
       'app/src/app.js',
-      'app/src/*module.js',
       'app/src/**/*.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'app/specs/**/*[sS]pec.js'
-    ],
-
+      // test
+      'app/**/*[sS]pec.js',
+    ]),
 
     // list of files to exclude
     exclude: [
@@ -43,7 +41,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['spec'],
 
 
     // web server port
